@@ -1,0 +1,89 @@
+{
+    "success": true,
+    "timestamp": "2025-07-25T17:27:45.259180+00:00",
+    "agent_type": "retriever",
+    "data": {
+      "results": [
+        {
+          "title": "Agent-based chatbot in corporate environment",
+          "authors": "{'name': 'Dybedokken, Ole'}, {'name': 'Nilsen, Henrik'}",
+          "year": 2025,
+          "content": "t, the platform is built by Langchain and therefore works seamlessly\nwith their library. It is straightforward to incorporate with an already ex-\nisting Langchain-based application. The platform will show you which tools\nthe agent uses at a certain prompt, with metadata and time spent on cer-\ntain tools. When the LLM is generating text, it has the possibility to show\nthe text created, the number of tokens, and the price. This greatly helps\nwhen using models to see how expensive they are [46].\n39\n--- Page 52 ---\n2.8 Indexing\n2.7.2 Langgraph\nLangraph is as the name may denote, a library built on Langchain and\nshould be incorporated with Langchain. It is built for creating language\nagents as graphs with cycles and the possibility to freely choose the LLM\nframework. It extends the LangChain Expression Language but supports\nthe possibility of adding different chains in cycles. The agent has the re-\nsponsibility to break the cycle when it seems fit. If the agent is a directed\nacyclic graph (",
+          "doi": "None",
+          "source": "",
+          "paper_id": "None",
+          "chunk_index": 74,
+          "research_domain": "Concept of Langraph",
+          "uuid": "db7ff43d-c961-403c-95b4-f9cd2e8ae262",
+          "metadata": {
+            "distance": 0.20376646518707275,
+            "certainty": 0.8981167674064636
+          }
+        },
+        {
+          "title": "Agent-based chatbot in corporate environment",
+          "authors": "{'name': 'Dybedokken, Ole'}, {'name': 'Nilsen, Henrik'}",
+          "year": 2025,
+          "content": "t, the platform is built by Langchain and therefore works seamlessly\nwith their library. It is straightforward to incorporate with an already ex-\nisting Langchain-based application. The platform will show you which tools\nthe agent uses at a certain prompt, with metadata and time spent on cer-\ntain tools. When the LLM is generating text, it has the possibility to show\nthe text created, the number of tokens, and the price. This greatly helps\nwhen using models to see how expensive they are [46].\n39\n--- Page 52 ---\n2.8 Indexing\n2.7.2 Langgraph\nLangraph is as the name may denote, a library built on Langchain and\nshould be incorporated with Langchain. It is built for creating language\nagents as graphs with cycles and the possibility to freely choose the LLM\nframework. It extends the LangChain Expression Language but supports\nthe possibility of adding different chains in cycles. The agent has the re-\nsponsibility to break the cycle when it seems fit. If the agent is a directed\nacyclic graph (",
+          "doi": "None",
+          "source": "",
+          "paper_id": "None",
+          "chunk_index": 74,
+          "research_domain": "Concept of Langraph",
+          "uuid": "9c37d9b5-aa2f-4df0-85aa-a97c6a6d42a1",
+          "metadata": {
+            "distance": 0.2039051651954651,
+            "certainty": 0.8980474472045898
+          }
+        },
+        {
+          "title": "Agent-based chatbot in corporate environment",
+          "authors": "{'name': 'Dybedokken, Ole'}, {'name': 'Nilsen, Henrik'}",
+          "year": 2025,
+          "content": "ifhelpisneeded,\nit can be found [67].\n2.7 Langchain\nLangchain is an open-source framework that helps automate the logistics\nprocess of LLM applications. This type of framework is often called an\n\"orchestration\" framework. Langchain helps combine LLMs like GPT-4\nwith external sources of data and tools [33].\n38\n--- Page 51 ---\n2.7 Langchain\nFigure 2.13: Langchain helps connect different sources and LLMs ©2024 Guid-\ning Tech Media [9]\nLangchain offers over 50 pre-built tools for various tasks, from image gen-\neration with DALL-E to web searches with DuckDuckGo. See the full list at\nhttps://python.langchain.com/docs/modules/agents/tools/\". Langchainalso\nsupports the possibility of customizing the built-in tools or creating custom\ntools from scratch [33].\n2.7.1 Langsmith\nLangsmith is a Software as a Service (SaaS) platform for developing, pro-\nducing, and maintaining LLM applications. It helps with testing, tracing,\nmonitoring, and evaluating agents built on any LLMs. As the name may\nsugges",
+          "doi": "None",
+          "source": "",
+          "paper_id": "None",
+          "chunk_index": 73,
+          "research_domain": "Concept of Langraph",
+          "uuid": "d16b2bd5-7f5a-4c0f-b0f7-ed7b9422a953",
+          "metadata": {
+            "distance": 0.21586978435516357,
+            "certainty": 0.8920651078224182
+          }
+        },
+        {
+          "title": "Agent-based chatbot in corporate environment",
+          "authors": "{'name': 'Dybedokken, Ole'}, {'name': 'Nilsen, Henrik'}",
+          "year": 2025,
+          "content": "ifhelpisneeded,\nit can be found [67].\n2.7 Langchain\nLangchain is an open-source framework that helps automate the logistics\nprocess of LLM applications. This type of framework is often called an\n\"orchestration\" framework. Langchain helps combine LLMs like GPT-4\nwith external sources of data and tools [33].\n38\n--- Page 51 ---\n2.7 Langchain\nFigure 2.13: Langchain helps connect different sources and LLMs ©2024 Guid-\ning Tech Media [9]\nLangchain offers over 50 pre-built tools for various tasks, from image gen-\neration with DALL-E to web searches with DuckDuckGo. See the full list at\nhttps://python.langchain.com/docs/modules/agents/tools/\". Langchainalso\nsupports the possibility of customizing the built-in tools or creating custom\ntools from scratch [33].\n2.7.1 Langsmith\nLangsmith is a Software as a Service (SaaS) platform for developing, pro-\nducing, and maintaining LLM applications. It helps with testing, tracing,\nmonitoring, and evaluating agents built on any LLMs. As the name may\nsugges",
+          "doi": "None",
+          "source": "",
+          "paper_id": "None",
+          "chunk_index": 73,
+          "research_domain": "Concept of Langraph",
+          "uuid": "972be965-a212-48d3-a142-336c1b2fa892",
+          "metadata": {
+            "distance": 0.2159428596496582,
+            "certainty": 0.8920285701751709
+          }
+        },
+        {
+          "title": "Agent-based chatbot in corporate environment",
+          "authors": "{'name': 'Dybedokken, Ole'}, {'name': 'Nilsen, Henrik'}",
+          "year": 2025,
+          "content": "there is no cycles), the use of Langraph is superfluous, and\nonly Langchain should be used [45].\n2.8 Indexing\nData indexing is a process in managing large datasets which helps allowing\nfor fast data retrieval and efficient handling of large volumes of informa-\ntion. This section provides an overview of indexing techniques and their\nfundamental importance in data management systems [78].\n2.8.1 Basics of Data Indexing\nIndexing involves creating a structured data format known as an index,\nwhich facilitates quick access to data without scanning the entire dataset.\nIt is especially crucial in environments where time and resource efficiency\nis important, which is the case in most LLMs [10, 78].\n2.8.2 Introduction to Vector Storage\nInadditiontotraditionalindexing, moderndatasystemsoftenutilizevector\nstoragetechniquestoenhancethecapabilitiesofsearchengines. Vectorstor-\nage allows for the representation of data points in high-dimensional space,\nfacilitating the efficient execution of similarity",
+          "doi": "None",
+          "source": "",
+          "paper_id": "None",
+          "chunk_index": 75,
+          "research_domain": "Concept of Langraph",
+          "uuid": "11468e4e-36c0-4a78-beb0-1f3e9da6164e",
+          "metadata": {
+            "distance": 0.21744847297668457,
+            "certainty": 0.8912757635116577
+          }
+        }
+      ]
+    }
+  }

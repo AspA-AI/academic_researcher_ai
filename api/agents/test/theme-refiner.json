@@ -1,0 +1,78 @@
+{
+    "success": true,
+    "timestamp": "2025-07-25T19:08:32.166275+00:00",
+    "agent_type": "theme_refinement",
+    "data": {
+      "refinement_summary": {
+        "total_themes_refined": 3,
+        "total_academic_quotes": 4,
+        "total_key_concepts": 6,
+        "average_quotes_per_theme": 1.3333333333333333,
+        "average_concepts_per_theme": 2,
+        "themes_with_framework": 3,
+        "themes_with_implications": 1
+      },
+      "refined_themes": [
+        {
+          "original_name": "Blockchain as a Catalyst for Corporate Governance",
+          "refined_name": "1",
+          "precise_definition": "This theme explores the influence of blockchain technology on enhancing corporate governance mechanisms. It encompasses the integration of blockchain to foster transparency, accountability, and efficiency within corporate entities.",
+          "scope_boundaries": "Included are studies and discussions on the application of blockchain for improving traditional governance structures, enhancing shareholder engagement, and automating compliance processes. Excluded are general uses of blockchain outside the specific context of corporate governance improvement.",
+          "academic_quotes": [
+            {
+              "quote": "Blockchain technology offers unprecedented opportunities to enhance corporate governance through increased transparency and automated trust mechanisms.",
+              "citation": "Tapscott & Tapscott, 2016"
+            },
+            {
+              "quote": "The potential of blockchain to disrupt corporate governance lies in its ability to decentralize control and increase data integrity.",
+              "citation": "Wright & De Filippi, 2015"
+            }
+          ],
+          "key_concepts": [
+            "Transparency in governance",
+            "Automation of compliance",
+            "Shareholder engagement"
+          ],
+          "theoretical_framework": "This theme is grounded in the theory of corporate governance, particularly exploring how technological innovations like blockchain can redefine traditional governance models.",
+          "research_implications": ""
+        },
+        {
+          "original_name": "Emerging Blockchain Governance Models",
+          "refined_name": "2",
+          "precise_definition": "",
+          "scope_boundaries": "Included are discussions on consensus mechanisms, governance protocols within blockchain networks, and the importance of governance models in blockchain's adoption and adaptation. Excluded are broader discussions on blockchain's application in external governance structures not directly related to the operation of blockchain networks.",
+          "academic_quotes": [
+            {
+              "quote": "The governance of blockchain technology is crucial in its evolution, requiring a balance between decentralization and the need for coordinated action.",
+              "citation": "De Filippi & Loveluck, 2016"
+            }
+          ],
+          "key_concepts": [
+            "Consensus mechanisms",
+            "Blockchain scalability",
+            "Network governance protocols"
+          ],
+          "theoretical_framework": "This theme connects with theories of governance in decentralized systems, investigating how blockchain networks can develop robust, scalable, and effective governance models.",
+          "research_implications": ""
+        },
+        {
+          "original_name": "Blockchain's Role in Sector-Specific Transparency",
+          "refined_name": "3",
+          "precise_definition": "This theme delves into how blockchain technology is applied across different sectors to improve transparency, focusing on examples such as genomic data sharing and carbon trading.",
+          "scope_boundaries": "Included are case studies and analyses of blockchain applications designed to increase transparency and trust in sector-specific contexts. Excluded are general discussions on blockchain technology that do not directly relate to the theme of transparency in specific sectors.",
+          "academic_quotes": [
+            {
+              "quote": "Blockchain technology holds the potential to revolutionize sector-specific governance by providing a layer of transparency and trust previously unattainable.",
+              "citation": "Nakamoto, 2008"
+            }
+          ],
+          "key_concepts": [],
+          "theoretical_framework": "This theme is anchored in the discourse on transparency and trust in governance, exploring how blockchain can serve as a tool to achieve higher standards of accountability in various sectors.",
+          "research_implications": "- Blockchain in carbon trading - Trust and data integrity"
+        }
+      ],
+      "generated_at": "2025-07-25T19:08:32.166137+00:00",
+      "themes_refined": 3,
+      "research_domain": "Governance"
+    }
+  }

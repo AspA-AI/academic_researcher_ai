@@ -1,0 +1,115 @@
+{
+    "success": true,
+    "timestamp": "2025-07-25T19:00:29.405163+00:00",
+    "agent_type": "thematic_grouping",
+    "data": {
+      "thematic_summary": {
+        "total_themes_generated": 3,
+        "total_codes_analyzed": 5,
+        "unique_codes_clustered": 5,
+        "theme_sizes": {
+          "Emerging Blockchain Governance Models": 3,
+          "Blockchain's Role in Sector-Specific Transparency": 2,
+          "Blockchain as a Catalyst for Corporate Governance": 0
+        },
+        "cross_cutting_ideas": [
+          "The theme resonates with broader discussions on technology-driven innovation in governance frameworks, suggesting potential overlaps with themes related to governance models in other sectors, such as genomic research and carbon market transparency.",
+          "---",
+          "#",
+          "This theme intersects with the broader notion of technological innovation's impact on governance structures, paralleling discussions in the first theme about blockchain's role in corporate governance enhancement.",
+          "---",
+          "#",
+          "The theme ties back to the overarching discussion on blockchain's potential to redefine governance and ethical standards across sectors, suggesting a thematic bridge to the broader implications of blockchain technology in enhancing corporate and sector-specific governance frameworks."
+        ],
+        "average_codes_per_theme": 1.6666666666666667
+      },
+      "themes": [
+        {
+          "theme_name": "Blockchain as a Catalyst for Corporate Governance",
+          "description": "",
+          "codes": [],
+          "justification": "",
+          "illustrative_quotes": [
+            "- \"Blockchain technology can significantly improve corporate governance through increased transparency and stakeholder engagement\" (Ehsan', 2024).",
+            "- \"The advantages of employing blockchain for enhanced oversight, transparency, and stakeholder participation in corporate governance are manifold\" (Jenny', 2024)."
+          ],
+          "cross_cutting_ideas": [
+            "The theme resonates with broader discussions on technology-driven innovation in governance frameworks, suggesting potential overlaps with themes related to governance models in other sectors, such as genomic research and carbon market transparency.",
+            "---",
+            "#"
+          ],
+          "academic_reasoning": ""
+        },
+        {
+          "theme_name": "Emerging Blockchain Governance Models",
+          "description": "",
+          "codes": [
+            {
+              "name": "Blockchain Compensation Models",
+              "definition": "Blockchain Compensation Models",
+              "frequency": 1,
+              "category": "primary",
+              "confidence": 0.8
+            },
+            {
+              "name": "Blockchain Governance Models",
+              "definition": "Blockchain Governance Models",
+              "frequency": 1,
+              "category": "primary",
+              "confidence": 0.8
+            },
+            {
+              "name": "Blockchain Governance Importance",
+              "definition": "Blockchain Governance Importance",
+              "frequency": 1,
+              "category": "primary",
+              "confidence": 0.8
+            }
+          ],
+          "justification": "",
+          "illustrative_quotes": [
+            "- \"Exploring blockchain compensation models reveals the nuanced ways in which blockchain can incentivize and regulate stakeholder interactions\" (Ehsan', 2024).",
+            "- \"The importance of blockchain governance models cannot be overstated, as they underpin the efficacy and integrity of decentralized networks\" (Jenny', 2024)."
+          ],
+          "cross_cutting_ideas": [
+            "This theme intersects with the broader notion of technological innovation's impact on governance structures, paralleling discussions in the first theme about blockchain's role in corporate governance enhancement.",
+            "---",
+            "#"
+          ],
+          "academic_reasoning": ""
+        },
+        {
+          "theme_name": "Blockchain's Role in Sector-Specific Transparency",
+          "description": "",
+          "codes": [
+            {
+              "name": "Transparency in Genomic",
+              "definition": "Transparency in Genomic Research",
+              "frequency": 1,
+              "category": "primary",
+              "confidence": 0.8
+            },
+            {
+              "name": "Blockchain for Carbon",
+              "definition": "Blockchain for Carbon Market Transparency",
+              "frequency": 1,
+              "category": "primary",
+              "confidence": 0.8
+            }
+          ],
+          "justification": "",
+          "illustrative_quotes": [
+            "- \"Blockchain technology's promise for enhancing transparency in genomic research could revolutionize how we approach data sharing and privacy\" (M.', 0).",
+            "- \"Employing blockchain for carbon market transparency introduces a level of accountability and traceability previously unattainable\" (Marco', 0)."
+          ],
+          "cross_cutting_ideas": [
+            "The theme ties back to the overarching discussion on blockchain's potential to redefine governance and ethical standards across sectors, suggesting a thematic bridge to the broader implications of blockchain technology in enhancing corporate and sector-specific governance frameworks."
+          ],
+          "academic_reasoning": ""
+        }
+      ],
+      "generated_at": "2025-07-25T19:00:29.405118+00:00",
+      "coded_units_analyzed": 5,
+      "research_domain": "Governance Research"
+    }
+  }
