@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+doc/
+specs/
+*.md
+!README.md
+
+# Test files
+tests/
+test/
+*.test.py
+*.spec.ts
+*.spec.tsx
+
+# Reports
+reports/
+*.json
+!package.json
+!package-lock.json
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+client/dist/
+api/static/
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+

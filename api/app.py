@@ -23,7 +23,8 @@ if _parent_dir not in sys.path:
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 import uvicorn
@@ -241,6 +242,46 @@ app.include_router(
     prefix="/api/v1/reports",
     tags=["Reports"]
 )
+
+# Serve static files (frontend) if SERVE_CLIENT is enabled
+# This is used in Docker/production deployments
+if os.getenv("SERVE_CLIENT", "false").lower() == "true":
+    static_dir = os.path.join(os.path.dirname(__file__), "static")
+    if os.path.exists(static_dir):
+        # Mount static assets directory (Vite outputs to /assets)
+        assets_dir = os.path.join(static_dir, "assets")
+        if os.path.exists(assets_dir):
+            app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+        
+        # Serve index.html for root path
+        @app.get("/")
+        async def serve_index():
+            """Serve the React app index.html for root path."""
+            index_path = os.path.join(static_dir, "index.html")
+            if os.path.exists(index_path):
+                return FileResponse(index_path)
+            else:
+                raise HTTPException(status_code=404, detail="Frontend not built")
+        
+        # Catch-all route for SPA routing (must be last)
+        @app.get("/{full_path:path}")
+        async def serve_spa(full_path: str):
+            """Serve the React app for all non-API routes (SPA routing)."""
+            # Skip API routes, docs, and static assets
+            if (full_path.startswith("api/") or 
+                full_path == "docs" or full_path.startswith("docs/") or
+                full_path == "redoc" or full_path.startswith("redoc/") or
+                full_path == "openapi.json" or
+                full_path.startswith("assets/") or
+                full_path.startswith("static/")):
+                raise HTTPException(status_code=404, detail="Not found")
+            
+            # Serve index.html for all other routes (React Router handles client-side routing)
+            index_path = os.path.join(static_dir, "index.html")
+            if os.path.exists(index_path):
+                return FileResponse(index_path)
+            else:
+                raise HTTPException(status_code=404, detail="Frontend not built")
 
 
 if __name__ == "__main__":
