@@ -61,6 +61,21 @@ reports/
 client/dist/
 api/static/
 
+# Large dependencies (will be installed fresh)
+client/node_modules/
+api/venv/
+api/__pycache__/
+
+# Large data files
+*.pdf
+*.zip
+*.tar.gz
+*.tar
+
+# Notebooks (can be large)
+*.ipynb
+notebook/
+
 # Logs
 *.log
 
