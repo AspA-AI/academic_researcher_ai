@@ -6,16 +6,18 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Load environment variables from JSON file to keep behavior consistent
+# Load env from JSON file (local dev) or use os.environ (Render, Docker, etc.)
 json_env_path = os.path.join(os.path.dirname(__file__), '../.env/vars.json')
 if os.path.exists(json_env_path):
     try:
         with open(json_env_path) as f:
             env_vars = json.load(f)
         for k, v in env_vars.items():
-            os.environ[k] = v
-    except Exception as _:
+            if v:
+                os.environ[k] = str(v)
+    except Exception:
         pass
+# When JSON not found: use platform env vars - no action needed
 
 class LLMBackend(ABC):
     """Abstract base class for LLM backends"""

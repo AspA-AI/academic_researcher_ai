@@ -1,0 +1,19 @@
+# Render Blueprint for AI Researcher
+# Deploy: https://dashboard.render.com → New → Blueprint → Connect repo
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: ai-researcher
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+
+    # Instance: Free spins down after 15 min. Upgrade to Starter ($7/mo) if OOM.
+    plan: free
+
+    envVars:
+      - key: SERVE_CLIENT
+        value: "true"
+      - key: PYTHONPATH
+        value: /app/api

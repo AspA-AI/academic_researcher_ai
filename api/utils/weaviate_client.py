@@ -14,15 +14,15 @@ from weaviate.classes.init import Auth
 from weaviate.classes.query import Filter, MetadataQuery
 import json
 
-# Load environment variables from JSON file
+# Load env from JSON file (local dev) or use os.environ (Render, Docker, etc.)
 json_env_path = os.path.join(os.path.dirname(__file__), '../.env/vars.json')
 if os.path.exists(json_env_path):
     with open(json_env_path) as f:
         env_vars = json.load(f)
     for k, v in env_vars.items():
-        os.environ[k] = v
-else:
-    print(f"[WARNING] Env JSON file not found: {json_env_path}")
+        if v:
+            os.environ[k] = str(v)
+# When JSON not found: use platform env vars (Render, Docker, etc.) - no warning needed
 
 logger = logging.getLogger(__name__)
 
