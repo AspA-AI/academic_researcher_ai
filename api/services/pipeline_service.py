@@ -316,7 +316,42 @@ class PipelineService:
         
         return True, report_result, None
 
-    async def run_lite_pipeline(self, request_data: Dict[str, Any]) -> Dict[str, Any]:
+    def create_lite_pipeline(self, request_data: Dict[str, Any]) -> str:
+        """
+        Create a lite pipeline record and return pipeline_id immediately.
+        Used for background execution: create first, then run steps in background.
+        """
+        query = request_data.get("query", "")
+        research_domain = request_data.get("research_domain", "General")
+        max_results = request_data.get("max_results", 10)
+        pipeline_config_data = request_data.get("pipeline_config") or {}
+        pipeline_config = {**self.default_config, **pipeline_config_data}
+        pipeline_state = {
+            "status": "running",
+            "current_step": 0,
+            "total_steps": 3,
+            "started_at": datetime.now(timezone.utc).isoformat(),
+            "query": query,
+            "research_domain": research_domain,
+            "max_results": max_results,
+            "pipeline_config": pipeline_config,
+            "steps": {
+                "1": {"name": "Document Retrieval", "status": "pending"},
+                "2": {"name": "Literature Review", "status": "pending"},
+                "3": {"name": "Report Generation", "status": "pending"},
+            },
+            "results": {"documents": None, "literature_review": None, "report_generation": None},
+            "quality_scores": {},
+            "supervisor_decisions": {},
+            "errors": [],
+        }
+        pipeline_id = self.storage_manager.create_pipeline(pipeline_state)
+        pipeline_state["pipeline_id"] = pipeline_id
+        self.pipeline_states[pipeline_id] = pipeline_state
+        print(f"[PIPELINE][LITE] ✅ Pipeline created with ID: {pipeline_id} (will run in background)")
+        return pipeline_id
+
+    async def run_lite_pipeline(self, request_data: Dict[str, Any], existing_pipeline_id: Optional[str] = None) -> Dict[str, Any]:
         """
         Run a lite research pipeline:
         - Early academic feasibility check
@@ -324,6 +359,8 @@ class PipelineService:
         - Retrieval validation
         - Literature review
         - Report generation (without coding/thematic steps)
+
+        If existing_pipeline_id is provided, uses that pipeline (skip creation).
         """
         try:
             print(f"[PIPELINE][LITE] 📋 Starting lite pipeline parameter extraction...")
@@ -336,44 +373,50 @@ class PipelineService:
             pipeline_config = {**self.default_config, **pipeline_config_data}
             enable_supervisor = bool(pipeline_config.get("enable_supervisor"))
 
-            pipeline_state = {
-                "status": "running",
-                "current_step": 0,
-                "total_steps": 3,
-                "started_at": datetime.now(timezone.utc).isoformat(),
-                "query": query,
-                "research_domain": research_domain,
-                "max_results": max_results,
-                "pipeline_config": pipeline_config,
-                "steps": {
-                    "1": {"name": "Document Retrieval", "status": "pending"},
-                    "2": {"name": "Literature Review", "status": "pending"},
-                    "3": {"name": "Report Generation", "status": "pending"},
-                },
-                "results": {
-                    "documents": None,
-                    "literature_review": None,
-                    "report_generation": None,
-                },
-                "quality_scores": {},
-                "supervisor_decisions": {},
-                "errors": [],
-            }
-
-            try:
-                print(f"[PIPELINE][LITE] First creation 💾 Calling storage_manager.create_pipeline()...")
-                pipeline_id = self.storage_manager.create_pipeline(pipeline_state)
-                print(f"[PIPELINE][LITE] ✅ Pipeline created with ID: {pipeline_id}")
-                pipeline_state["pipeline_id"] = pipeline_id
+            if existing_pipeline_id:
+                pipeline_id = existing_pipeline_id
+                pipeline_state = self.pipeline_states.get(pipeline_id) or self.storage_manager.get_pipeline(pipeline_id)
+                if not pipeline_state:
+                    return {"success": False, "pipeline_id": pipeline_id, "error": "Pipeline not found"}
                 self.pipeline_states[pipeline_id] = pipeline_state
-            except Exception as storage_error:
-                import traceback
-                print(f"[PIPELINE][LITE] Storage traceback: {traceback.format_exc()}")
-                return {
-                    "success": False,
-                    "pipeline_id": "unknown",
-                    "error": f"Pipeline storage failed: {str(storage_error)}",
+            else:
+                pipeline_state = {
+                    "status": "running",
+                    "current_step": 0,
+                    "total_steps": 3,
+                    "started_at": datetime.now(timezone.utc).isoformat(),
+                    "query": query,
+                    "research_domain": research_domain,
+                    "max_results": max_results,
+                    "pipeline_config": pipeline_config,
+                    "steps": {
+                        "1": {"name": "Document Retrieval", "status": "pending"},
+                        "2": {"name": "Literature Review", "status": "pending"},
+                        "3": {"name": "Report Generation", "status": "pending"},
+                    },
+                    "results": {
+                        "documents": None,
+                        "literature_review": None,
+                        "report_generation": None,
+                    },
+                    "quality_scores": {},
+                    "supervisor_decisions": {},
+                    "errors": [],
                 }
+                try:
+                    print(f"[PIPELINE][LITE] First creation 💾 Calling storage_manager.create_pipeline()...")
+                    pipeline_id = self.storage_manager.create_pipeline(pipeline_state)
+                    print(f"[PIPELINE][LITE] ✅ Pipeline created with ID: {pipeline_id}")
+                    pipeline_state["pipeline_id"] = pipeline_id
+                    self.pipeline_states[pipeline_id] = pipeline_state
+                except Exception as storage_error:
+                    import traceback
+                    print(f"[PIPELINE][LITE] Storage traceback: {traceback.format_exc()}")
+                    return {
+                        "success": False,
+                        "pipeline_id": "unknown",
+                        "error": f"Pipeline storage failed: {str(storage_error)}",
+                    }
 
             def _looks_like_openai_quota(err: str) -> bool:
                 s = (err or "").lower()

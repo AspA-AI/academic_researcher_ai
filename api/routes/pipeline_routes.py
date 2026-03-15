@@ -131,13 +131,9 @@ async def start_lite_pipeline(
     background_tasks: BackgroundTasks
 ):
     """
-    Start a lite research pipeline.
+    Start a lite research pipeline (runs in background to avoid Render 90s timeout).
 
-    This endpoint runs:
-    1. Academic topic validation
-    2. Enhanced document retrieval (with smart fallback)
-    3. Literature review
-    4. Report generation (JSON-first), without coding/thematic steps
+    Returns immediately with pipeline_id. Poll GET /pipelines/{id}/progress or /results.
     """
     try:
         selected_sources = request.sources if request.mode == "manual" and request.sources else [
@@ -173,12 +169,21 @@ async def start_lite_pipeline(
             "use_playwright_fallback": use_playwright_fallback,
         }
 
+
+        # Create pipeline and return immediately; run steps in background (avoids Render 90s timeout)
+        # pipeline_id = pipeline_service.create_lite_pipeline(request_data)
         result = await pipeline_service.run_lite_pipeline(request_data)
 
-        if not result.get("success"):
-            print(f"[ROUTE] ❌ Lite pipeline failed to start!")
-            return result.get("res", result)
-
+        # background_tasks.add_task(
+        #     pipeline_service.run_lite_pipeline,
+        #     request_data,
+        #     existing_pipeline_id=pipeline_id,
+        # )
+        if not result["success"]:
+            print(f"[ROUTE] ❌ Pipeline failed to start!")
+            return result.get('res', {})
+        
+        # Determine final status from result
         final_status_str = result.get("status") or ("completed" if result.get("success") else "failed")
         try:
             final_status = PipelineStatus(final_status_str)
@@ -187,19 +192,19 @@ async def start_lite_pipeline(
 
         response = PipelineResponse(
             success=True,
-            pipeline_id=str(result.get("pipeline_id", "unknown")),
+            pipeline_id=str(result["pipeline_id"]),  # Convert UUID to string
             status=final_status,
-            result=result.get("res", result),
+            result=result['res'],
             data={
-                "current_step": result.get("data", {}).get("current_step", 3 if final_status == PipelineStatus.COMPLETED else 0),
-                "total_steps": result.get("data", {}).get("total_steps", 3),
+                "current_step": result.get("data", {}).get("current_step", 6 if final_status == PipelineStatus.COMPLETED else 0),
+                "total_steps": result.get("data", {}).get("total_steps", 6),
                 "started_at": result.get("data", {}).get("started_at", datetime.now(timezone.utc).isoformat()),
                 "query": request.query,
                 "research_domain": request.research_domain,
                 "quality_scores": result.get("data", {}).get("quality_scores", {}),
-                "supervisor_decisions": result.get("data", {}).get("supervisor_decisions", {}),
+                "supervisor_decisions": result.get("data", {}).get("supervisor_decisions", {})
             },
-            timestamp=datetime.now(timezone.utc).isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat()
         )
 
         return response
@@ -365,9 +370,21 @@ async def get_pipeline_results(
         result = pipeline_service.get_pipeline_results(pipeline_id)
         
         if not result["success"]:
+            # When pipeline is still running, return 200 with error so client can keep polling
+            error_msg = result.get("error", f"Pipeline {pipeline_id} not found")
+            if "not finished yet" in error_msg:
+                return JSONResponse(
+                    status_code=200,
+                    content={
+                        "success": False,
+                        "error": error_msg,
+                        "pipeline_id": pipeline_id,
+                        "timestamp": result.get("timestamp"),
+                    },
+                )
             raise HTTPException(
                 status_code=404,
-                detail=f"Pipeline results not found: {pipeline_id}"
+                detail=error_msg
             )
         
         results_data = result["data"]
@@ -381,6 +398,8 @@ async def get_pipeline_results(
         
         return response
         
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(
             status_code=500,

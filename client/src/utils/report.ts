@@ -97,6 +97,13 @@ export function extractCanonicalReport(
     return normalizeReport(nested);
   }
 
+  // Polled /results response shape:
+  //   { data: { results: { report_generation: { data: { report } } } } }
+  const polledReport = raw?.data?.results?.report_generation?.data?.report;
+  if (polledReport && polledReport.sections) {
+    return normalizeReport(polledReport);
+  }
+
   return null;
 }
 

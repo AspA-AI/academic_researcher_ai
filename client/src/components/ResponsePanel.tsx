@@ -20,6 +20,7 @@ export const ResponsePanel: React.FC<Props> = ({ loading, error, response }) => 
   const result = response?.raw?.result ?? response?.raw?.res ?? response?.raw;
   const jsonString = JSON.stringify(result ?? response?.raw, null, 2);
   const canonicalReport = extractCanonicalReport(response);
+  // const canonicalReport = response?.raw?.result?.data?.report;
 
   const handleCopy = async () => {
     try {
@@ -95,19 +96,19 @@ export const ResponsePanel: React.FC<Props> = ({ loading, error, response }) => 
                   {response.success ? "Success" : "Failed"}
                 </span>
                 {status && <span className="status-chip subtle">Status: {String(status)}</span>}
-                {response.pipeline_id && (
-                  <span className="status-chip subtle">Pipeline ID: {response.pipeline_id}</span>
+                {response?.pipeline_id && (
+                  <span className="status-chip subtle">Pipeline ID: {response?.pipeline_id}</span>
                 )}
               </div>
               {response.raw?.data?.query && (
                 <div className="status-meta">
                   <div>
                     <span className="meta-label">Query</span>
-                    <span className="meta-value">{response.raw.data.query}</span>
+                    <span className="meta-value">{response?.raw?.data?.query}</span>
                   </div>
                   <div>
                     <span className="meta-label">Research domain</span>
-                    <span className="meta-value">{response.raw.data.research_domain}</span>
+                    <span className="meta-value">{response?.raw?.data?.research_domain}</span>
                   </div>
                 </div>
               )}
@@ -198,11 +199,11 @@ export const ResponsePanel: React.FC<Props> = ({ loading, error, response }) => 
 
             {/* Tab Content */}
             <div className="tab-content-wrapper">
-              {activeTab === "preview" && (
+              {/* {activeTab === "preview" && ( */}
                 <div className="tab-content preview-content">
-                  <ReportExportPanel pipelineId={response.pipeline_id} report={canonicalReport} />
+                  <ReportExportPanel pipelineId={response?.pipeline_id} report={canonicalReport} />
                 </div>
-              )}
+              {/* )} */}
 
               {activeTab === "json" && (
                 <div className="tab-content json-content">

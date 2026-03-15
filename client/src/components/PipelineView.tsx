@@ -1,8 +1,62 @@
 import React, { useState } from "react";
 import { PipelineForm, PipelineFormValues } from "./PipelineForm";
 import { ResponsePanel } from "./ResponsePanel";
-import { startFullPipeline, startLitePipeline } from "../api/client";
+import { startFullPipeline, startLitePipeline, getPipelineResults } from "../api/client";
 import type { PipelineResponseEnvelope } from "../types/api";
+
+const POLL_INTERVAL_MS = 2500;
+
+async function pollForLiteResults(
+  pipelineId: string,
+  setResponse: (r: PipelineResponseEnvelope | null) => void,
+  setError: (e: string | null) => void,
+  setIsSubmitting: (v: boolean) => void
+) {
+  let aborted = false;
+  const poll = async () => {
+    if (aborted) return;
+    const { success, data, error } = await getPipelineResults(pipelineId);
+    if (aborted) return;
+    if (!success) {
+      if (error?.includes("not finished yet")) {
+        setTimeout(poll, POLL_INTERVAL_MS);
+        return;
+      }
+      setError(error || "Failed to fetch results");
+      setIsSubmitting(false);
+      return;
+    }
+    if (data?.pipeline_status === "completed" || data?.pipeline_status === "halted") {
+      setResponse({
+        success: true,
+        pipeline_id: pipelineId,
+        status: data.pipeline_status,
+        raw: {
+          result: {
+            data: {
+              report: data.results?.report_generation?.data?.report,
+              documents: data.results?.documents,
+              literature_review: data.results?.literature_review,
+              report_generation: data.results?.report_generation,
+            },
+          },
+          data,
+        },
+      });
+    } else if (data?.pipeline_status === "failed") {
+      const errMsg = data.results?.errors?.[0] || data.error || "Pipeline failed";
+      setError(errMsg);
+    } else {
+      setTimeout(poll, POLL_INTERVAL_MS);
+      return;
+    }
+    setIsSubmitting(false);
+  };
+  poll();
+  return () => {
+    aborted = true;
+  };
+}
 
 export const PipelineView: React.FC = () => {
   const [activeMode, setActiveMode] = useState<"full" | "lite">("lite");
@@ -16,6 +70,7 @@ export const PipelineView: React.FC = () => {
     setError(null);
     setResponse(null);
     setShowForm(false); // Hide form when pipeline starts
+    let isPolling = false;
 
     try {
       const payload = {
@@ -51,11 +106,17 @@ export const PipelineView: React.FC = () => {
           ? await startFullPipeline(payload)
           : await startLitePipeline(payload);
 
-      setResponse(res);
       if (!res.success) {
         setError(res.error || "Pipeline request failed.");
       } else {
-        setShowForm(false); // Hide form when response is successful
+        setResponse(res);
+        setShowForm(false);
+        isPolling = activeMode === "lite" && !!res.pipeline_id && res.raw?.status === "running";
+        if (isPolling) {
+          pollForLiteResults(res.pipeline_id!, setResponse, setError, setIsSubmitting);
+        } else {
+          setResponse(res);
+        }
       }
     } catch (e: any) {
       setError(e?.message || "Unexpected error while calling the pipeline.");
@@ -149,7 +210,7 @@ export const PipelineView: React.FC = () => {
             </div>
           )}
           <div className={`content-column response-column ${!showForm && (response || isSubmitting) ? "full-width" : ""}`}>
-            <ResponsePanel
+          <ResponsePanel
               loading={isSubmitting}
               error={error}
               response={response}

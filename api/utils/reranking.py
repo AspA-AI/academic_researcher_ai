@@ -1,5 +1,6 @@
 from typing import Any, List, Sequence, Optional
 import math
+import os
 
 
 class CrossEncoderReranker:
@@ -15,6 +16,10 @@ class CrossEncoderReranker:
     @classmethod
     def _get_model(cls) -> Optional[Any]:
         if cls._model is None:
+            # Skip loading on low-memory hosts (e.g. Render free tier 512MB)
+            if os.environ.get("DISABLE_RERANKER", "").lower() in ("1", "true", "yes"):
+                cls._unavailable_reason = "Reranker disabled via DISABLE_RERANKER (low-memory mode)"
+                return None
             try:
                 from sentence_transformers import CrossEncoder  # lazy import
                 cls._model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")

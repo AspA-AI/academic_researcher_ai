@@ -71,6 +71,7 @@ In **Environment** → **Add Environment Variable**:
 | `WEAVIATE_URL` | `https://your-cluster.weaviate.network` | No |
 | `WEAVIATE_API_KEY` | Your Weaviate API key (if required) | Yes |
 | `SERVE_CLIENT` | `true` | No |
+| `DISABLE_RERANKER` | `true` | **Required on Free tier** – avoids OOM (512MB limit). Skips cross-encoder reranking; retrieval still works. |
 
 To add secrets:
 1. Open **Environment**
@@ -129,9 +130,9 @@ If you already run Weaviate (e.g. Docker locally or another cloud), use that URL
 
 ### Out of memory (OOM)
 
-- Free tier has limited RAM (~512MB)
-- Upgrade to **Starter** ($7/month) for more memory
-- Or remove `sentence-transformers` and rely on vector search only (less accurate reranking)
+- Free tier has 512MB RAM. The cross-encoder reranker (sentence-transformers) uses ~500MB+.
+- **Fix:** Set `DISABLE_RERANKER=true` in Render Environment. Retrieval still works with vector search; reranking is skipped.
+- Or upgrade to **Starter** ($7/month) for more memory if you want reranking.
 
 ### App spins down after 15 minutes
 

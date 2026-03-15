@@ -58,6 +58,44 @@ export async function startLitePipeline(
   return postJson("/pipelines/lite", payload);
 }
 
+export async function getPipelineProgress(
+  pipelineId: string
+): Promise<{ success: boolean; data?: any; error?: string }> {
+  const url = `${API_BASE}/pipelines/${pipelineId}/progress`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      return {
+        success: false,
+        error: data?.detail || data?.error || `HTTP ${res.status}`
+      };
+    }
+    return { success: true, data: data?.data ?? data };
+  } catch (e: any) {
+    return { success: false, error: e?.message || "Failed to fetch progress" };
+  }
+}
+
+export async function getPipelineResults(
+  pipelineId: string
+): Promise<{ success: boolean; data?: any; error?: string }> {
+  const url = `${API_BASE}/pipelines/${pipelineId}/results`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      return {
+        success: false,
+        error: data?.detail || data?.error || `HTTP ${res.status}`
+      };
+    }
+    return { success: true, data: data?.data ?? data };
+  } catch (e: any) {
+    return { success: false, error: e?.message || "Failed to fetch results" };
+  }
+}
+
 /**
  * Transform canonical report JSON into format-specific structure using LLM.
  */
