@@ -404,7 +404,6 @@ class PipelineService:
                     "errors": [],
                 }
                 try:
-                    print(f"[PIPELINE][LITE] First creation 💾 Calling storage_manager.create_pipeline()...")
                     pipeline_id = self.storage_manager.create_pipeline(pipeline_state)
                     print(f"[PIPELINE][LITE] ✅ Pipeline created with ID: {pipeline_id}")
                     pipeline_state["pipeline_id"] = pipeline_id

@@ -29,6 +29,9 @@ class RetriverValidationPrompts:
                 User Query:
                 {user_query}
 
+                Research Domain:
+                {research_domain}
+
                 Retrieved Documents:
                 {content_parts}
 
