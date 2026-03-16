@@ -56,10 +56,6 @@ class OpenAIBackend(LLMBackend):
         self.temperature = temperature
         self.api_key = settings.OPENAI_API_KEY
         
-        # Debug logging
-        logger.info(f"Raw OPENAI_API_KEY from os.getenv: {repr(os.getenv('OPENAI_API_KEY'))}")
-        logger.info(f"Cleaned OPENAI_API_KEY from settings: {repr(settings.OPENAI_API_KEY)}")
-        
         if not self.api_key:
             raise ValueError("OPENAI_API_KEY environment variable is required")
         
