@@ -142,7 +142,10 @@ export const PipelineView: React.FC = () => {
             <button
               type="button"
               className={`mode-toggle-btn ${activeMode === "lite" ? "active" : ""}`}
-              onClick={() => setActiveMode("lite")}
+              onClick={() => {
+                setActiveMode("lite");
+                window.location.reload();
+              }}
             >
               Lite pipeline
               <span className="mode-pill">Fast</span>
@@ -150,7 +153,10 @@ export const PipelineView: React.FC = () => {
             <button
               type="button"
               className={`mode-toggle-btn ${activeMode === "full" ? "active" : ""}`}
-              onClick={() => setActiveMode("full")}
+              onClick={() => {
+                setActiveMode("full");
+                window.location.reload();
+              }}
             >
               Full thematic pipeline
               <span className="mode-pill neutral">In-depth</span>
