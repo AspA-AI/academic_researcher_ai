@@ -4,9 +4,10 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load .env file explicitly to override system environment variables
+# Load .env file for local development (doesn't override existing env vars)
 env_path = Path(__file__).parent.parent / ".env"
-load_dotenv(env_path, override=True)
+if env_path.exists():
+    load_dotenv(env_path)
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "AI Researcher API"
