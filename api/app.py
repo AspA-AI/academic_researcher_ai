@@ -10,10 +10,10 @@ from contextlib import asynccontextmanager
 
 # Add parent directory to path if running from api/ folder
 # This allows the app to work both from ragbackend/ and api/ directories
-_current_dir = os.path.dirname(os.path.abspath(__file__))
-_parent_dir = os.path.dirname(_current_dir)
-if _parent_dir not in sys.path:
-    sys.path.insert(0, _parent_dir)
+# _current_dir = os.path.dirname(os.path.abspath(__file__))
+# _parent_dir = os.path.dirname(_current_dir)
+# if _parent_dir not in sys.path:
+#     sys.path.insert(0, _parent_dir)
 
 # NOTE: Use package-absolute imports (e.g., `from api...`) instead of
 # manually mutating sys.path. This makes the app runnable from the repo

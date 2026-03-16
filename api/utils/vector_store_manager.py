@@ -2,6 +2,8 @@ import logging
 from typing import List, Dict, Any, Optional
 from .weaviate_client import get_weaviate_manager
 from weaviate.classes.query import Filter
+from api.core.config import settings
+
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +51,15 @@ class VectorStoreManager:
             except Exception as e:
                 print(f"[ERROR] Could not fetch schema for {self.collection_name}: {e}")
         else:
-            print(f"[ERROR] Weaviate is not available! Cannot initialize VectorStoreManager")
+            print(f"[ERROR] Weaviate is not available REHMET! Cannot initialize VectorStoreManager")
+            if settings:
+                print("Checking the settings")
+                print(settings)
+            
+            if settings.WEAVIATE_API_KEY:
+                print("--------------------------------")
+                print(settings.WEAVIATE_API_KEY)
+                print("--------------------------------")
             raise RuntimeError("Weaviate is not available")
 
     def add_chunks(self, chunks: List[str], metadata_list: Optional[List[Dict[str, Any]]] = None) -> bool:

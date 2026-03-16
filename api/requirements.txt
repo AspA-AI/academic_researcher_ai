@@ -43,6 +43,7 @@ protobuf==6.33.2
 pycparser==2.23
 pydantic==2.12.5
 pydantic_core==2.41.5
+pydantic-settings
 PyPDF2==3.0.1
 pypdfium2==5.2.0
 python-dotenv==1.2.1

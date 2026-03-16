@@ -13,15 +13,19 @@ from weaviate.classes.config import Configure
 from weaviate.classes.init import Auth
 from weaviate.classes.query import Filter, MetadataQuery
 import json
+from dotenv import load_dotenv
+from pathlib import Path
+from api.core.config import settings
+
 
 # Load env from JSON file (local dev) or use os.environ (Render, Docker, etc.)
-json_env_path = os.path.join(os.path.dirname(__file__), '../.env/vars.json')
-if os.path.exists(json_env_path):
-    with open(json_env_path) as f:
-        env_vars = json.load(f)
-    for k, v in env_vars.items():
-        if v:
-            os.environ[k] = str(v)
+# json_env_path = os.path.join(os.path.dirname(__file__), '../.env/vars.json')
+# if os.path.exists(json_env_path):
+#     with open(json_env_path) as f:
+#         env_vars = json.load(f)
+#     for k, v in env_vars.items():
+#         if v:
+#             os.environ[k] = str(v)
 # When JSON not found: use platform env vars (Render, Docker, etc.) - no warning needed
 
 logger = logging.getLogger(__name__)
@@ -31,8 +35,14 @@ class WeaviateManager:
     
     def __init__(self, url: str = None, api_key: str = None):
         """Initialize Weaviate client"""
-        self.url = url or os.getenv("WEAVIATE_URL")
-        self.api_key = api_key or os.getenv("WEAVIATE_API_KEY")
+        if not settings.CORE_API_KEY:
+            print("OPENAI_API_KEY is not set. OpenAI features will not work.")
+            print(settings.CORE_API_KEY)
+            print("--------------------------------")
+            print(settings.WEAVIATE_API_KEY)
+            print("--------------------------------")
+        self.url = url or settings.WEAVIATE_URL
+        self.api_key = api_key or settings.WEAVIATE_API_KEY
         self.client: Optional[WeaviateClient] = None
         self.is_connected = False
         
