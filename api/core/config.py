@@ -21,6 +21,11 @@ env_path = Path(__file__).parent.parent / ".env"
 if env_path.exists():
     load_dotenv(env_path)
 
+# Debug logging
+import logging
+logger = logging.getLogger(__name__)
+logger.info(f"Raw OPENAI_API_KEY from environment: {repr(os.getenv('OPENAI_API_KEY'))}")
+
 class Settings(BaseSettings):
     PROJECT_NAME: str = "AI Researcher API"
     DEBUG: bool = True
@@ -55,7 +60,9 @@ class Settings(BaseSettings):
     @classmethod
     def clean_api_keys(cls, v):
         if isinstance(v, str):
-            return clean_env_value(v)
+            cleaned = clean_env_value(v)
+            logger.info(f"Cleaning env value: {repr(v)} -> {repr(cleaned)}")
+            return cleaned
         return v
     
     model_config = SettingsConfigDict(
