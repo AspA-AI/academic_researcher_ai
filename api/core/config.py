@@ -3,6 +3,18 @@ from typing import Optional
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from pydantic import field_validator
+
+def clean_env_value(value: str) -> str:
+    """Remove surrounding quotes from environment variable values."""
+    if not value:
+        return value
+    value = value.strip()
+    if value.startswith('"') and value.endswith('"'):
+        return value[1:-1]
+    if value.startswith("'") and value.endswith("'"):
+        return value[1:-1]
+    return value
 
 # Load .env file for local development (doesn't override existing env vars)
 env_path = Path(__file__).parent.parent / ".env"
@@ -38,6 +50,13 @@ class Settings(BaseSettings):
     JWT_SECRET: str = "your-secret-key-change-in-production"  # Change this in production!
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION_HOURS: int = 24 * 7  # 7 days
+    
+    @field_validator('OPENAI_API_KEY', 'CORE_API_KEY', 'WEAVIATE_URL', 'WEAVIATE_API_KEY', 'OPIK_API_KEY', 'OPIK_URL', mode='before')
+    @classmethod
+    def clean_api_keys(cls, v):
+        if isinstance(v, str):
+            return clean_env_value(v)
+        return v
     
     model_config = SettingsConfigDict(
         env_file=".env", 

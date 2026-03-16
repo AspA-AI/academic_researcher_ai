@@ -4,6 +4,8 @@ import os
 import json
 import logging
 
+from api.core.config import settings
+
 logger = logging.getLogger(__name__)
 
 # Load env from JSON file (local dev) or use os.environ (Render, Docker, etc.)
@@ -52,7 +54,7 @@ class OpenAIBackend(LLMBackend):
 
         self.model = model
         self.temperature = temperature
-        self.api_key = os.getenv("OPENAI_API_KEY")
+        self.api_key = settings.OPENAI_API_KEY
         
         if not self.api_key:
             raise ValueError("OPENAI_API_KEY environment variable is required")
